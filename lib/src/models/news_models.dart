@@ -60,9 +60,9 @@ class Article {
         source: Source.fromJson(json["source"]),
         author: json["author"] == null ? '' : json["author"],
         title: json["title"],
-        description: json["description"],
+        description: json["description"] == null ? '' : json["description"],
         url: json["url"],
-        urlToImage: json["urlToImage"],
+        urlToImage: json["urlToImage"] == null ? '' : json["urlToImage"],
         publishedAt: DateTime.parse(json["publishedAt"]),
         content: json["content"] == null ? '' : json["content"],
       );
