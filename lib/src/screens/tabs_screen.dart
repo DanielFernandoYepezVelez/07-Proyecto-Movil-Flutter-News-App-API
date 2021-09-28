@@ -51,7 +51,7 @@ class _NavegationBottom extends StatelessWidget {
   }
 }
 
-class _NavigationModel extends ChangeNotifier {
+class _NavigationModel with ChangeNotifier {
   int _paginaActual = 0;
   PageController _pageController = new PageController();
 
@@ -61,7 +61,7 @@ class _NavigationModel extends ChangeNotifier {
     this._paginaActual = valor;
 
     /* Page Controller Para Cambiar De Página */
-    _pageController.animateToPage(valor,
+    this._pageController.animateToPage(valor,
         duration: Duration(milliseconds: 250), curve: Curves.easeOut);
 
     notifyListeners();
