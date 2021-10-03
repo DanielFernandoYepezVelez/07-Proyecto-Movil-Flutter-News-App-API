@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
+/* Models */
 import 'package:news_app/src/models/news_models.dart';
+
+/* Thema */
 import 'package:news_app/src/theme/tema.dart';
 
 class ListNews extends StatelessWidget {
@@ -57,7 +61,7 @@ class _TarjetaTopBar extends StatelessWidget {
             '${index + 1}. ',
             style: TextStyle(color: tema.accentColor),
           ),
-          Text('${noticia.source.name}.')
+          Text('${this.noticia.source.name}.')
         ],
       ),
     );
@@ -97,10 +101,10 @@ class _TarjetaImage extends StatelessWidget {
         ),
         child: Container(
           // ignore: unnecessary_null_comparison
-          child: (noticia.urlToImage != null)
+          child: (this.noticia.urlToImage != null)
               ? FadeInImage(
                   placeholder: AssetImage('assets/img/giphy.gif'),
-                  image: NetworkImage(noticia.urlToImage),
+                  image: NetworkImage(this.noticia.urlToImage),
                 )
               : Image(
                   image: AssetImage('assets/img/no-image.png'),
@@ -120,7 +124,9 @@ class _TarjetaBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-      child: Text(noticia.description),
+      child: Text(
+          // ignore: unnecessary_null_comparison
+          (this.noticia.description != null) ? this.noticia.description : ''),
     );
   }
 }
