@@ -59,6 +59,7 @@ class _ListCategory extends StatelessWidget {
 
 class _CategoryBotton extends StatelessWidget {
   final Category category;
+
   const _CategoryBotton(this.category);
 
   @override
