@@ -14,6 +14,7 @@ class ListNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       itemCount: this.noticias!.length,
       itemBuilder: (_, int index) {
         return _New(noticia: this.noticias![index], index: index);

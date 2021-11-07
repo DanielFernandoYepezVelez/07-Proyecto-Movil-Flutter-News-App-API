@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'package:news_app/src/screens/tab1_screen.dart';
@@ -34,14 +35,53 @@ class _Pages extends StatelessWidget {
   }
 }
 
-class _NavegationBottom extends StatelessWidget {
+class _NavegationBottom extends StatefulWidget {
+  @override
+  State<_NavegationBottom> createState() => _NavegationBottomState();
+}
+
+class _NavegationBottomState extends State<_NavegationBottom> {
+  RewardedAd? rewardedAd;
+  bool isLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    RewardedAd.load(
+      adUnitId: "ca-app-pub-3940256099942544/5224354917",
+      request: AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            this.isLoaded = true;
+          });
+          this.rewardedAd = ad;
+          // print("Rewarded Ad Loaded");
+        },
+        onAdFailedToLoad: (error) {
+          // print("Rewarded Ad Failed To Load $error");
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final navegacionModel = Provider.of<_NavigationModel>(context);
 
     return BottomNavigationBar(
       currentIndex: navegacionModel.paginaActual,
-      onTap: (value) => navegacionModel.paginaActual = value,
+      onTap: (value) {
+        navegacionModel.paginaActual = value;
+
+        if (value == 1 && this.isLoaded) {
+          this.rewardedAd!.show(
+            onUserEarnedReward: (ad, rewardItem) {
+              // print("User Watched Complete Video");
+            },
+          );
+        }
+      },
       items: [
         BottomNavigationBarItem(
             icon: Icon(Icons.person_outline), label: 'Para Ti'),

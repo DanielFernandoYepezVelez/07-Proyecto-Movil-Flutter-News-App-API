@@ -1,13 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/src/widgets/list_news.dart';
 import 'package:provider/provider.dart';
+import 'package:news_app/src/widgets/list_news.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+/* Services */
 import 'package:news_app/src/services/news_service.dart';
+
+/* Models */
 import 'package:news_app/src/models/category_models.dart';
 
+/* Tema Application */
 import 'package:news_app/src/theme/tema.dart';
 
-class Tab2Screen extends StatelessWidget {
+class Tab2Screen extends StatefulWidget {
+  @override
+  State<Tab2Screen> createState() => _Tab2ScreenState();
+}
+
+class _Tab2ScreenState extends State<Tab2Screen> {
+  BannerAd? bannerAd;
+  bool isLoaded = false;
+
+  BannerAd? bannerAdTwo;
+  bool isLoadedTwo = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    this.bannerAd = BannerAd(
+      size: AdSize.fullBanner,
+      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            this.isLoaded = true;
+          });
+          // print("Banner Ad Loaded");
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          // print("Banner Ad Failed $error");
+        },
+      ),
+    );
+
+    this.bannerAdTwo = BannerAd(
+      size: AdSize.fullBanner,
+      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            this.isLoadedTwo = true;
+          });
+          // print("Banner Ad Loaded");
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          // print("Banner Ad Failed $error");
+        },
+      ),
+    );
+
+    this.bannerAd!.load();
+    this.bannerAdTwo!.load();
+  }
+
   @override
   Widget build(BuildContext context) {
     final newsService = Provider.of<NewsService>(context);
@@ -15,8 +75,29 @@ class Tab2Screen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          SafeArea(child: _ListCategory()),
-          Expanded(child: ListNews(newsService.getArticlesCartegorySelected))
+          SafeArea(
+            child: Column(
+              children: [
+                this.isLoaded
+                    ? Container(
+                        height: 50,
+                        child: AdWidget(ad: this.bannerAd!),
+                      )
+                    : SizedBox(),
+                SizedBox(height: 15),
+                _ListCategory(),
+                this.isLoadedTwo
+                    ? Container(
+                        height: 50,
+                        child: AdWidget(ad: this.bannerAdTwo!),
+                      )
+                    : SizedBox(),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListNews(newsService.getArticlesCartegorySelected),
+          )
         ],
       ),
     );
@@ -57,10 +138,39 @@ class _ListCategory extends StatelessWidget {
   }
 }
 
-class _CategoryBotton extends StatelessWidget {
+class _CategoryBotton extends StatefulWidget {
   final Category category;
 
   const _CategoryBotton(this.category);
+
+  @override
+  State<_CategoryBotton> createState() => _CategoryBottonState();
+}
+
+class _CategoryBottonState extends State<_CategoryBotton> {
+  RewardedAd? rewardedAd;
+  bool isLoaded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    RewardedAd.load(
+      adUnitId: "ca-app-pub-3940256099942544/5224354917",
+      request: AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            this.isLoaded = true;
+          });
+          this.rewardedAd = ad;
+          // print("Rewarded Ad Loaded");
+        },
+        onAdFailedToLoad: (error) {
+          // print("Rewarded Ad Failed To Load $error");
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +181,16 @@ class _CategoryBotton extends StatelessWidget {
       onTap: () {
         /* Cuando Estoy En Un Tap O Click El Provider No Se Tiene Que Redibujar (listen: False)*/
         final newsService = Provider.of<NewsService>(context, listen: false);
-        newsService.selectedCategory = category.name;
+        newsService.selectedCategory = widget.category.name;
+
+        if (this.widget.category.name == 'general' ||
+            this.widget.category.name == 'sports') {
+          this.rewardedAd!.show(
+            onUserEarnedReward: (ad, rewardItem) {
+              // print("User Watched Complete Video");
+            },
+          );
+        }
       },
       child: Container(
         width: 40,
@@ -82,8 +201,8 @@ class _CategoryBotton extends StatelessWidget {
           color: Colors.white,
         ),
         child: Icon(
-          category.icon,
-          color: (newsService.selectedCategory == category.name)
+          widget.category.icon,
+          color: (newsService.selectedCategory == widget.category.name)
               ? tema.accentColor
               : Colors.black54,
         ),
