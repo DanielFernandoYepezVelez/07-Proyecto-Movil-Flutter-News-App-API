@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.news_app">
+    package="com.nextappoficial.headlinesDiaDia">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="news_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Headlines"
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/launcher_icon">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-8802721251339887~1903444380"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

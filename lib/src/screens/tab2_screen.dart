@@ -30,7 +30,7 @@ class _Tab2ScreenState extends State<Tab2Screen> {
 
     this.bannerAd = BannerAd(
       size: AdSize.fullBanner,
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: "ca-app-pub-8802721251339887/9665194968",
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
@@ -48,7 +48,7 @@ class _Tab2ScreenState extends State<Tab2Screen> {
 
     this.bannerAdTwo = BannerAd(
       size: AdSize.fullBanner,
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: "ca-app-pub-8802721251339887/9665194968",
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
@@ -155,7 +155,7 @@ class _CategoryBottonState extends State<_CategoryBotton> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     RewardedAd.load(
-      adUnitId: "ca-app-pub-3940256099942544/5224354917",
+      adUnitId: "ca-app-pub-8802721251339887/2141928160",
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -183,8 +183,7 @@ class _CategoryBottonState extends State<_CategoryBotton> {
         final newsService = Provider.of<NewsService>(context, listen: false);
         newsService.selectedCategory = widget.category.name;
 
-        if (this.widget.category.name == 'general' ||
-            this.widget.category.name == 'sports') {
+        if (this.widget.category.name == 'general') {
           this.rewardedAd!.show(
             onUserEarnedReward: (ad, rewardItem) {
               // print("User Watched Complete Video");
