@@ -151,6 +151,9 @@ class _CategoryBottonState extends State<_CategoryBotton> {
   RewardedAd? rewardedAd;
   bool isLoaded = false;
 
+  InterstitialAd? interstitialAd;
+  bool isLoading = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -170,6 +173,24 @@ class _CategoryBottonState extends State<_CategoryBotton> {
         },
       ),
     );
+
+    /* ----------------------------------- */
+    InterstitialAd.load(
+      adUnitId: 'ca-app-pub-8802721251339887/6804858212',
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            this.isLoading = true;
+            this.interstitialAd = ad;
+          });
+          // print('InterstitialAd Ad Loaded');
+        },
+        onAdFailedToLoad: (error) {
+          // print('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
   }
 
   @override
@@ -183,12 +204,16 @@ class _CategoryBottonState extends State<_CategoryBotton> {
         final newsService = Provider.of<NewsService>(context, listen: false);
         newsService.selectedCategory = widget.category.name;
 
-        if (this.widget.category.name == 'general') {
+        if (this.widget.category.name == 'general' && this.isLoaded) {
           this.rewardedAd!.show(
             onUserEarnedReward: (ad, rewardItem) {
               // print("User Watched Complete Video");
             },
           );
+        }
+
+        if (this.widget.category.name == 'sports' && this.isLoading) {
+          this.interstitialAd!.show();
         }
       },
       child: Container(

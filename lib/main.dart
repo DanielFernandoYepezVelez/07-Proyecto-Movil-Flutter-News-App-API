@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: tema,
-        title: 'Material App',
+        title: 'Headlines App',
         home: TabsScreen(),
       ),
     );
