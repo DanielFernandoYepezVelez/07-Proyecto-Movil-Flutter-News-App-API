@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:news_app/src/models/news_models.dart';
-import 'package:news_app/src/models/category_models.dart';
+import 'package:news_api_flutter/models/news_models.dart';
+import 'package:news_api_flutter/models/category_models.dart';
 
 const _URL_NEWS = 'https://newsapi.org/v2';
 const _API_KEY = '683e3711f1684b54b2ec4316e761baf5';

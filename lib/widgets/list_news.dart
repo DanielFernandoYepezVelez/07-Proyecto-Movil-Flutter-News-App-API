@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 /* Models */
-import 'package:news_app/src/models/news_models.dart';
+import 'package:news_api_flutter/models/news_models.dart';
 
 /* Thema */
-import 'package:news_app/src/theme/tema.dart';
+import 'package:news_api_flutter/theme/tema.dart';
 
 class ListNews extends StatelessWidget {
   final List<Article>? noticias;

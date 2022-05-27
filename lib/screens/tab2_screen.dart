@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:news_app/src/widgets/list_news.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 /* Services */
-import 'package:news_app/src/services/news_service.dart';
+import 'package:news_api_flutter/services/news_service.dart';
 
 /* Models */
-import 'package:news_app/src/models/category_models.dart';
+import 'package:news_api_flutter/models/category_models.dart';
+
+/* Widgets */
+import 'package:news_api_flutter/widgets/list_news.dart';
 
 /* Tema Application */
-import 'package:news_app/src/theme/tema.dart';
+import 'package:news_api_flutter/theme/tema.dart';
 
 class Tab2Screen extends StatefulWidget {
   @override
@@ -18,54 +20,34 @@ class Tab2Screen extends StatefulWidget {
 }
 
 class _Tab2ScreenState extends State<Tab2Screen> {
-  BannerAd? bannerAd;
-  bool isLoaded = false;
-
-  BannerAd? bannerAdTwo;
-  bool isLoadedTwo = false;
+  NativeAd? _nativeVideoAd;
+  bool _isLoadedVideoNative = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _loadVideoNativeAd();
+  }
 
-    this.bannerAd = BannerAd(
-      size: AdSize.fullBanner,
-      adUnitId: "ca-app-pub-8802721251339887/9665194968",
-      request: AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            this.isLoaded = true;
-          });
-          // print("Banner Ad Loaded");
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          // print("Banner Ad Failed $error");
-        },
-      ),
+  void _loadVideoNativeAd() {
+    _nativeVideoAd = NativeAd(
+      // adUnitId: 'ca-app-pub-3940256099942544/1044960115',
+      adUnitId: 'ca-app-pub-8702651755109746/7805058932',
+      factoryId: 'listTile',
+      request: const AdRequest(),
+      listener: NativeAdListener(onAdLoaded: (ad) {
+        /* print('Video Ad Loaded Successfully'); */
+        setState(() {
+          _isLoadedVideoNative = true;
+        });
+      }, onAdFailedToLoad: (ad, error) {
+        /* print(
+            'Actually Ad Video Failed To Load ${error.message}, ${error.code}'); */
+        ad.dispose();
+      }),
     );
 
-    this.bannerAdTwo = BannerAd(
-      size: AdSize.fullBanner,
-      adUnitId: "ca-app-pub-8802721251339887/9665194968",
-      request: AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() {
-            this.isLoadedTwo = true;
-          });
-          // print("Banner Ad Loaded");
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          // print("Banner Ad Failed $error");
-        },
-      ),
-    );
-
-    this.bannerAd!.load();
-    this.bannerAdTwo!.load();
+    _nativeVideoAd!.load();
   }
 
   @override
@@ -78,20 +60,17 @@ class _Tab2ScreenState extends State<Tab2Screen> {
           SafeArea(
             child: Column(
               children: [
-                this.isLoaded
-                    ? Container(
-                        height: 50,
-                        child: AdWidget(ad: this.bannerAd!),
-                      )
-                    : SizedBox(),
-                SizedBox(height: 15),
+                Container(
+                  height: 295,
+                  child: !_isLoadedVideoNative
+                      ? FadeInImage(
+                          placeholder: AssetImage('assets/img/giphy.gif'),
+                          image: AssetImage('assets/img/giphy.gif'),
+                        )
+                      : AdWidget(ad: _nativeVideoAd!),
+                ),
+                // SizedBox(height: 5),
                 _ListCategory(),
-                this.isLoadedTwo
-                    ? Container(
-                        height: 50,
-                        child: AdWidget(ad: this.bannerAdTwo!),
-                      )
-                    : SizedBox(),
               ],
             ),
           ),
@@ -111,7 +90,7 @@ class _ListCategory extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 100,
+      height: 78,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
@@ -148,41 +127,49 @@ class _CategoryBotton extends StatefulWidget {
 }
 
 class _CategoryBottonState extends State<_CategoryBotton> {
-  RewardedAd? rewardedAd;
-  bool isLoaded = false;
+  InterstitialAd? _interstitialVideoAd;
+  bool _isLoadedInterstitialVideo = false;
 
-  InterstitialAd? interstitialAd;
-  bool isLoading = false;
+  InterstitialAd? _interstitialVideoAd2;
+  bool _isLoadedInterstitialVideo2 = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    RewardedAd.load(
-      adUnitId: "ca-app-pub-8802721251339887/2141928160",
-      request: AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          setState(() {
-            this.isLoaded = true;
-          });
-          this.rewardedAd = ad;
-          // print("Rewarded Ad Loaded");
-        },
-        onAdFailedToLoad: (error) {
-          // print("Rewarded Ad Failed To Load $error");
-        },
-      ),
-    );
+  void initState() {
+    super.initState();
+    _loadInterstitialVideo();
+    _loadInterstitialVideo2();
+  }
 
-    /* ----------------------------------- */
+  void _loadInterstitialVideo() {
     InterstitialAd.load(
-      adUnitId: 'ca-app-pub-8802721251339887/6804858212',
+      // adUnitId: 'ca-app-pub-3940256099942544/8691691433',
+      adUnitId: 'ca-app-pub-8702651755109746/6819032904',
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           setState(() {
-            this.isLoading = true;
-            this.interstitialAd = ad;
+            this._isLoadedInterstitialVideo = true;
+            this._interstitialVideoAd = ad;
+          });
+          // print('InterstitialAd Ad Loaded');
+        },
+        onAdFailedToLoad: (error) {
+          // print('InterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
+
+  void _loadInterstitialVideo2() {
+    InterstitialAd.load(
+      // adUnitId: 'ca-app-pub-3940256099942544/8691691433',
+      adUnitId: 'ca-app-pub-8702651755109746/6819032904',
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            this._isLoadedInterstitialVideo2 = true;
+            this._interstitialVideoAd2 = ad;
           });
           // print('InterstitialAd Ad Loaded');
         },
@@ -204,16 +191,14 @@ class _CategoryBottonState extends State<_CategoryBotton> {
         final newsService = Provider.of<NewsService>(context, listen: false);
         newsService.selectedCategory = widget.category.name;
 
-        if (this.widget.category.name == 'general' && this.isLoaded) {
-          this.rewardedAd!.show(
-            onUserEarnedReward: (ad, rewardItem) {
-              // print("User Watched Complete Video");
-            },
-          );
+        if (this.widget.category.name == 'entertainment' &&
+            _isLoadedInterstitialVideo) {
+          _interstitialVideoAd!.show();
         }
 
-        if (this.widget.category.name == 'sports' && this.isLoading) {
-          this.interstitialAd!.show();
+        if (this.widget.category.name == 'sports' &&
+            _isLoadedInterstitialVideo2) {
+          _interstitialVideoAd2!.show();
         }
       },
       child: Container(

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-/* Services Pesonal */
-import 'package:news_app/src/services/news_service.dart';
+/* Services Personal */
+import 'package:news_api_flutter/services/news_service.dart';
 
-/* Tema Of The Application */
-import 'package:news_app/src/theme/tema.dart';
+/* Theme Of The Application */
+import 'package:news_api_flutter/theme/tema.dart';
 
 /* Complete Screen */
-import 'package:news_app/src/screens/tabs_screen.dart';
+import 'package:news_api_flutter/screens/tabs_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
   runApp(MyApp());
 }
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: tema,
-        title: 'Headlines App',
+        title: 'Titulares',
         home: TabsScreen(),
       ),
     );

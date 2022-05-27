@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-import 'package:news_app/src/screens/tab1_screen.dart';
-import 'package:news_app/src/screens/tab2_screen.dart';
+import 'package:news_api_flutter/screens/tab1_screen.dart';
+import 'package:news_api_flutter/screens/tab2_screen.dart';
 
 class TabsScreen extends StatelessWidget {
   @override
@@ -41,28 +40,9 @@ class _NavegationBottom extends StatefulWidget {
 }
 
 class _NavegationBottomState extends State<_NavegationBottom> {
-  RewardedAd? rewardedAd;
-  bool isLoaded = false;
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    RewardedAd.load(
-      adUnitId: "ca-app-pub-8802721251339887/2141928160",
-      request: AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          setState(() {
-            this.isLoaded = true;
-          });
-          this.rewardedAd = ad;
-          // print("Rewarded Ad Loaded");
-        },
-        onAdFailedToLoad: (error) {
-          // print("Rewarded Ad Failed To Load $error");
-        },
-      ),
-    );
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -73,14 +53,6 @@ class _NavegationBottomState extends State<_NavegationBottom> {
       currentIndex: navegacionModel.paginaActual,
       onTap: (value) {
         navegacionModel.paginaActual = value;
-
-        if (value == 1 && this.isLoaded) {
-          this.rewardedAd!.show(
-            onUserEarnedReward: (ad, rewardItem) {
-              // print("User Watched Complete Video");
-            },
-          );
-        }
       },
       items: [
         BottomNavigationBarItem(
