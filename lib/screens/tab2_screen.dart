@@ -32,7 +32,7 @@ class _Tab2ScreenState extends State<Tab2Screen> {
   void _loadVideoNativeAd() {
     _nativeVideoAd = NativeAd(
       // adUnitId: 'ca-app-pub-3940256099942544/1044960115',
-      adUnitId: 'ca-app-pub-8702651755109746/7805058932',
+      adUnitId: 'ca-app-pub-2118916369098036/7828570663',
       factoryId: 'listTile',
       request: const AdRequest(),
       listener: NativeAdListener(onAdLoaded: (ad) {
@@ -143,7 +143,7 @@ class _CategoryBottonState extends State<_CategoryBotton> {
   void _loadInterstitialVideo() {
     InterstitialAd.load(
       // adUnitId: 'ca-app-pub-3940256099942544/8691691433',
-      adUnitId: 'ca-app-pub-8702651755109746/6819032904',
+      adUnitId: 'ca-app-pub-2118916369098036/6104425455',
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
@@ -163,7 +163,7 @@ class _CategoryBottonState extends State<_CategoryBotton> {
   void _loadInterstitialVideo2() {
     InterstitialAd.load(
       // adUnitId: 'ca-app-pub-3940256099942544/8691691433',
-      adUnitId: 'ca-app-pub-8702651755109746/6819032904',
+      adUnitId: 'ca-app-pub-2118916369098036/6104425455',
       request: AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {

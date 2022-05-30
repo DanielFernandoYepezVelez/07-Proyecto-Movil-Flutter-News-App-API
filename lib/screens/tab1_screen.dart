@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:news_api_flutter/services/news_service.dart';
 
@@ -25,7 +25,7 @@ class _Tab1ScreenState extends State<Tab1Screen>
   void _loadVideoNativeAd() {
     _nativeVideoAd = NativeAd(
       // adUnitId: 'ca-app-pub-3940256099942544/1044960115',
-      adUnitId: 'ca-app-pub-8702651755109746/7805058932',
+      adUnitId: 'ca-app-pub-2118916369098036/7828570663',
       factoryId: 'listTile',
       request: const AdRequest(),
       listener: NativeAdListener(onAdLoaded: (ad) {
